@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="نظام إدارة طلبات الصيانة للمرافق وتقنية المعلومات">
+  <title>صيانة+ | نظام إدارة طلبات الصيانة</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='18' fill='%23111827'/><g transform='translate(16 16) scale(1.33)' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'/></g></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['Cairo', 'system-ui', 'sans-serif'] } } }
+    };
+  </script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="font-sans antialiased">
+
+  <!-- ==================== شاشة تسجيل الدخول ==================== -->
+  <div id="authScreen" class="grid min-h-screen lg:grid-cols-2">
+
+    <section class="auth-brand relative hidden flex-col justify-between overflow-hidden p-12 text-white lg:flex">
+      <div class="flex items-center gap-3">
+        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 backdrop-blur"><i data-lucide="wrench" class="h-6 w-6"></i></div>
+        <div class="leading-tight">
+          <p class="text-2xl font-extrabold">صيانة<span class="text-pink-300">+</span></p>
+          <p class="text-xs text-indigo-200">نظام إدارة الصيانة CMMS</p>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-4xl font-extrabold leading-[1.5]">كل بلاغ صيانة…<br>تحت السيطرة.</h2>
+        <p class="mt-4 max-w-md text-indigo-100/80 leading-8">ارفع البلاغ، وعيّن الفني المناسب، وتابع التقدم والالتزام بمواعيد الخدمة في مكان واحد.</p>
+        <ul class="mt-8 space-y-3 text-sm">
+          <li class="flex items-center gap-3"><span class="grid h-8 w-8 place-items-center rounded-full bg-white/10"><i data-lucide="clipboard-list" class="h-4 w-4"></i></span>رفع البلاغات ومتابعتها لحظياً</li>
+          <li class="flex items-center gap-3"><span class="grid h-8 w-8 place-items-center rounded-full bg-white/10"><i data-lucide="hard-hat" class="h-4 w-4"></i></span>تعيين الفنيين حسب التخصص والحمل الحالي</li>
+          <li class="flex items-center gap-3"><span class="grid h-8 w-8 place-items-center rounded-full bg-white/10"><i data-lucide="timer" class="h-4 w-4"></i></span>قياس كفاءة الالتزام بـ SLA</li>
+        </ul>
+      </div>
+
+      <p class="text-xs text-indigo-200/70">© 2026 صيانة+ · جميع الحقوق محفوظة</p>
+    </section>
+
+    <section class="flex items-center justify-center bg-[#F8F9FB] p-6">
+      <div class="w-full max-w-md">
+        <div class="mb-8 flex items-center gap-3 lg:hidden">
+          <div class="grid h-11 w-11 place-items-center rounded-2xl bg-gray-900 text-white"><i data-lucide="wrench" class="h-5 w-5"></i></div>
+          <p class="text-xl font-extrabold">صيانة<span class="text-indigo-500">+</span></p>
+        </div>
+
+        <div class="card p-8">
+          <h1 class="text-2xl font-extrabold">تسجيل الدخول</h1>
+          <p class="mt-1 mb-6 text-sm text-gray-500">أدخل بيانات حسابك للمتابعة إلى لوحة التحكم.</p>
+
+          <form id="loginForm" class="space-y-4" novalidate>
+            <div>
+              <label class="label" for="loginUser">اسم المستخدم</label>
+              <div class="relative">
+                <i data-lucide="user" class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"></i>
+                <input id="loginUser" name="username" class="field !pr-11" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="مثال: ahmed">
+              </div>
+            </div>
+
+            <div>
+              <label class="label" for="loginPass">كلمة المرور</label>
+              <div class="relative" data-pass-wrap>
+                <i data-lucide="lock" class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"></i>
+                <input id="loginPass" name="password" type="password" class="field !pr-11 !pl-16" autocomplete="current-password" placeholder="••••••••">
+                <button type="button" class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400 hover:text-gray-700" data-action="togglePass">إظهار</button>
+              </div>
+            </div>
+
+            <p id="loginError" class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600" role="alert"></p>
+
+            <button type="submit" class="btn btn-dark w-full !py-3.5 text-base">
+              <i data-lucide="log-in" class="h-5 w-5"></i> دخول
+            </button>
+          </form>
+          </section>
+          <di id="demoBox" class="mt-6 rounded-2xl bg-gray-50 p-4 text-sm">
+            
+         
+   
+
+  <!-- ==================== التطبيق (بعد الدخول) ==================== -->
+  <div id="appShell" class="hidden">
+    <div id="sidebarBackdrop" class="sidebar-backdrop" data-action="closeSidebar"></div>
+
+    <div class="mx-auto max-w-[1720px] p-3 sm:p-5">
+      <div class="grid grid-cols-1 gap-5 lg:grid-cols-[250px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)_330px]">
+
+        <aside id="sidebar"
+               class="sidebar card flex flex-col p-5 lg:sticky lg:top-5 lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:h-[calc(100vh-2.5rem)] xl:row-span-1"></aside>
+
+        <main class="min-w-0 lg:col-start-2 lg:row-start-1">
+          <header class="mb-5 flex flex-wrap items-center gap-3">
+            <button class="btn btn-soft !p-2.5 lg:hidden" data-action="openSidebar" aria-label="القائمة">
+              <i data-lucide="menu" class="h-5 w-5"></i>
+            </button>
+
+            <div class="min-w-0 flex-1">
+              <h1 id="greeting" class="truncate text-xl font-extrabold sm:text-2xl"></h1>
+              <p id="subGreeting" class="text-sm text-gray-500"></p>
+            </div>
+
+            <div class="flex w-full items-center gap-3 sm:w-auto">
+              <label class="relative flex-1 sm:w-80">
+                <i data-lucide="search" class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"></i>
+                <input id="searchInput" type="search" autocomplete="off"
+                       placeholder="ابحث برقم البلاغ أو العنوان أو الموقع…"
+                       class="w-full rounded-full border border-transparent bg-white py-3 pr-11 pl-4 text-sm shadow-sm outline-none transition focus:border-gray-900">
+              </label>
+
+              <div id="notifWrap" class="relative">
+                <button class="relative grid h-11 w-11 place-items-center rounded-full bg-white shadow-sm transition hover:bg-gray-50"
+                        data-action="toggleNotif" aria-label="الإشعارات">
+                  <i data-lucide="bell" class="h-5 w-5"></i>
+                  <span id="notifBadge" class="absolute -top-1 -left-1 hidden min-w-[1.2rem] rounded-full bg-red-500 px-1 text-center text-[11px] font-bold leading-[1.2rem] text-white"></span>
+                </button>
+                <div id="notifMenu" class="card absolute left-0 top-14 z-50 hidden w-80 max-w-[85vw] p-3 shadow-xl ring-1 ring-gray-100"></div>
+              </div>
+            </div>
+          </header>
+
+          <div id="view"></div>
+        </main>
+
+        <aside id="panel" class="space-y-5 lg:col-start-2 lg:row-start-2 xl:col-start-3 xl:row-start-1"></aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- درج تفاصيل البلاغ -->
+  <div id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-action="closeDrawer"></div>
+    <section id="drawerPanel" class="drawer-panel" role="dialog" aria-label="تفاصيل البلاغ"></section>
+  </div>
+
+  <!-- النوافذ المنبثقة (بلاغ جديد / مستخدم / كلمة مرور) -->
+  <div id="modal" class="modal" data-action="modalBackdrop">
+    <div id="modalBody" class="modal-box"></div>
+  </div>
+
+  <div id="toasts" class="fixed bottom-4 left-4 z-[100] flex flex-col gap-2"></div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
